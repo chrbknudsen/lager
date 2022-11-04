@@ -61,7 +61,7 @@ shinyUI(fluidPage(
               ),
             conditionalPanel(
               condition = "input.handling == 'remove'",
-              sliderInput("breakCount", "remove", min = 1, max = 50, value = 10)
+              selectInput(inputId = "remove_hvor", label = "Hvorfra skal der fjernes", choices = NULL)
             )
           
         ),

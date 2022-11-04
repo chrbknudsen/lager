@@ -15,25 +15,18 @@ fields <- c("hvad","maengde","udloeb","hvor")
 
 add_to_stock <- function(input){
    data <- read_csv("../data/transaktioner.csv")
-   print("data")
-   print("----")
-   print(data)
-   print("----")
    ny <- data.frame(matrix(nrow=1,ncol=0))
    ny$timestamp <- lubridate::now()
    for(x in fields){
      var <- input[[x]]
      ny[[x]] <- var
    }
-   print("ny")
-   print("---")
-   print(ny)
    data <- rbind(data, ny)
    write_csv(data, "../data/transaktioner.csv")
   }
 
 # Define server logic required to draw a histogram ----
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
 
     output$tabel <- renderTable({
         read_csv("../data/transaktioner.csv")
@@ -42,6 +35,17 @@ shinyServer(function(input, output) {
     observeEvent(input$addbutton, {
       print("added")
       add_to_stock(input)
+    })
+    
+    choices_remove_hvor <- reactive({
+      choices_remove_hvor <- read_csv("../data/transaktioner.csv") %>% 
+        select(hvor) %>% 
+        distinct() %>% 
+        pull(hvor)
+    })
+    
+    observe({
+      updateSelectInput(session = session, inputId = "remove_hvor", choices = choices_remove_hvor())
     })
 
 })
