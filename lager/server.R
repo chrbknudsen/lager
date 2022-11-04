@@ -11,37 +11,32 @@ library(shiny)
 
 # define functions ----
 
-fields <- c("timestamp","hvad","maengde","udloeb","hvor")
+fields <- c("hvad","maengde","udloeb","hvor")
 
 add_to_stock <- function(input){
    data <- read_csv("../data/transaktioner.csv")
+   print("data")
+   print("----")
+   print(data)
+   print("----")
    ny <- data.frame(matrix(nrow=1,ncol=0))
    ny$timestamp <- lubridate::now()
    for(x in fields){
      var <- input[[x]]
-     ny$´x´ <- var
+     ny[[x]] <- var
    }
-   
-   print(class(ny))
-   print("----")
-   print("data")
-   print(data)
-   print(ncol(data))
-   print("-----")
    print("ny")
+   print("---")
    print(ny)
-   print(ncol(ny))
-   print(str(ny))
    data <- rbind(data, ny)
-   print(data)
-   write.csv(data, "../data/transaktioner.csv")
+   write_csv(data, "../data/transaktioner.csv")
   }
 
 # Define server logic required to draw a histogram ----
 shinyServer(function(input, output) {
 
     output$tabel <- renderTable({
-        iris
+        read_csv("../data/transaktioner.csv")
     })
     
     observeEvent(input$addbutton, {
