@@ -1,8 +1,17 @@
+# nulstil transaktionsdatabasen
 library(tidyverse)
 
-tribble(~timestamp,~hvad,~maengde,~udloeb,~hvor,) %>% 
-  write_csv("data/transaktioner.csv")
+tribble(~timestamp,~hvad,~antal,~storrelse,~lokation,~kategori, ~tags, ~note) %>% 
+  write_rds("data/transaktioner.rds")
 
 
-data <- read_csv("data/transaktioner.csv")
-ncol(data)
+
+# Hvad ellers på todolisten
+# 
+# Har vi de rigtige felter? det tror vi
+# Tilføje nulstil tilføj efter tilføj knap trykket
+# Hvordan select box med alternativ tekst box
+# populer relevante selectboxes
+# mulighed for at vælge mere end en tag
+# Får udtag til at fungere.
+# - udvælgelse af muligheder

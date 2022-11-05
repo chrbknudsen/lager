@@ -8,7 +8,7 @@
 #
 
 library(shiny)
-
+library(tidyverse)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
 
@@ -39,24 +39,39 @@ shinyUI(fluidPage(
                 value = ""
                 ),
               textInput(
-                inputId = "maengde",
-                label = "Mængde",
+                inputId = "antal",
+                label = "Antal",
                 value = ""
               ),
               textInput(
-                inputId = "udloeb",
-                label = "Udløb",
+                inputId = "storrelse",
+                label = "Størrelse",
                 value = ""
               ),
               selectInput(
-                inputId = "hvor",
-                label = "Hvor",
+                inputId = "lokation",
+                label = "Lokation",
                 choices = c(
                   "fryser" = "fryser2",
                   "kælder" = "kælder",
                   "kælder2" = "kælder2a"
                   )
                 ),
+              textInput(
+                inputId = "kategori",
+                label = "Kategori",
+                value = ""
+              ),
+              textInput(
+                inputId = "tags",
+                label = "Tags",
+                value = ""
+              ),
+              textInput(
+                inputId = "note",
+                label = "Note",
+                value = ""
+              ),
               actionButton("addbutton", "Tilføj til lager")
               ),
             conditionalPanel(
