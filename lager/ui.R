@@ -18,7 +18,7 @@ shinyUI(fluidPage(
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
-            selectInput(
+          selectInput(
               inputId = "handling",
               label = NULL,
               choices = c(
@@ -38,25 +38,16 @@ shinyUI(fluidPage(
                 label = "Hvad",
                 value = ""
                 ),
-              textInput(
-                inputId = "antal",
-                label = "Antal",
-                value = ""
-              ),
-              textInput(
-                inputId = "storrelse",
-                label = "Størrelse",
-                value = ""
-              ),
-              selectInput(
-                inputId = "lokation",
-                label = "Lokation",
-                choices = c(
-                  "fryser" = "fryser2",
-                  "kælder" = "kælder",
-                  "kælder2" = "kælder2a"
-                  )
-                ),
+              textInput(inputId = "antal",label = "Antal",value = ""),
+              textInput(inputId = "storrelse",label = "Størrelse",value = ""),
+              selectInput(inputId = "lokation",
+                          label = "Lokation",
+                          choices = c(
+                            "fryser" = "fryser2",
+                            "kælder" = "kælder",
+                            "kælder2" = "kælder2a"
+                                    )
+                        ),
               textInput(
                 inputId = "kategori",
                 label = "Kategori",
@@ -74,9 +65,11 @@ shinyUI(fluidPage(
               ),
               actionButton("addbutton", "Tilføj til lager")
               ),
+          
             conditionalPanel(
               condition = "input.handling == 'remove'",
-              selectInput(inputId = "remove_hvor", label = "Hvorfra skal der fjernes", choices = NULL)
+              selectInput(inputId = "remove_hvor", label = "Hvorfra skal der fjernes", choices = NULL),
+              selectInput(inputId = "remove_hvad", label = "Hvad skal der fjernes", choices = NULL)
             )
           
         ),

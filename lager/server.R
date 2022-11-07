@@ -12,16 +12,19 @@ library(shiny)
 # define functions ----
 
 
-fields <- c("timestamp","hvad","antal","storrelse","lokation","kategori", "tags", "note")
+
   
 add_to_stock <- function(input){
    data <- read_rds("../data/transaktioner.rds")
    ny <- data.frame(matrix(nrow=1,ncol=0))
    ny$timestamp <- lubridate::now()
-   for(x in fields){
-     var <- input[[x]]
-     ny[[x]] <- var
-   }
+   ny$hvad <- input[["hvad"]]
+   ny$antal <- input[["antal"]]
+   ny$storrelse <- input[["storrelse"]]
+   ny$lokation <- input[["lokation"]]
+   ny$kategori <- input[["kategori"]]
+   ny$tags <- input[["tags"]]
+   ny$note <- input[["note"]]
    data <- rbind(data, ny)
    write_rds(data, "../data/transaktioner.rds")
   }
@@ -45,8 +48,20 @@ shinyServer(function(input, output, session) {
         pull(lokation)
     })
     
+    choices_remove_hvad <- reactive({
+      choices_remove_hvor <- read_rds("../data/transaktioner.rds") %>% 
+        filter(lokation == input$remove_hvor) %>% 
+        select(hvad) %>% 
+        distinct() %>% 
+        pull(hvad)
+    })
+    
+    
     observe({
       updateSelectInput(session = session, inputId = "remove_hvor", choices = choices_remove_hvor())
+    })
+    observe({
+      updateSelectInput(session = session, inputId = "remove_hvad", choices = choices_remove_hvad())
     })
 
 })
