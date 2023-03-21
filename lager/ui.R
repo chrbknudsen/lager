@@ -1,86 +1,28 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# ui.R
 
 library(shiny)
-library(tidyverse)
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
 
-    # Application title
-    titlePanel("Lager"),
-
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-          selectInput(
-              inputId = "handling",
-              label = NULL,
-              choices = c(
-                "lagerstatus" = "status",
-                "tilføj" = "add",
-                "udtag" = "remove"
-              )
-            ),
-            conditionalPanel(
-              condition = "input.handling == 'status'",
-              sliderInput("breakCount", "status", min = 1, max = 50, value = 10)
-            ),
-            conditionalPanel(
-              condition = "input.handling == 'add'",
-              textInput(
-                inputId = "hvad",
-                label = "Hvad",
-                value = ""
-                ),
-              textInput(inputId = "antal",label = "Antal",value = ""),
-              textInput(inputId = "storrelse",label = "Størrelse",value = ""),
-              selectInput(inputId = "lokation",
-                          label = "Lokation",
-                          choices = c(
-                            "fryser" = "fryser2",
-                            "kælder" = "kælder",
-                            "kælder2" = "kælder2a"
-                                    )
-                        ),
-              textInput(
-                inputId = "kategori",
-                label = "Kategori",
-                value = ""
-              ),
-              textInput(
-                inputId = "tags",
-                label = "Tags",
-                value = ""
-              ),
-              textInput(
-                inputId = "note",
-                label = "Note",
-                value = ""
-              ),
-              actionButton("addbutton", "Tilføj til lager")
-              ),
-          
-            conditionalPanel(
-              condition = "input.handling == 'remove'",
-              selectInput(inputId = "remove_hvor", label = "Hvorfra skal der fjernes", choices = NULL),
-              selectInput(inputId = "remove_hvad", label = "Hvad skal der fjernes", choices = NULL)
-            )
-          
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-          conditionalPanel(
-            condition = "input.handling == 'status'",
-            tableOutput("tabel")
-          )
-          
-        )
-    )
-))
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # read in the csv-file
+  my_data <- read.csv("data/my_data.csv", stringsAsFactors = FALSE),
+  
+  # Create a tabset with three tabs
+  tabsetPanel(
+    tabPanel("Add data", 
+             h1("This is tab 1"),
+             
+             # Create a form for adding data to the CSV file
+             fluidRow(
+               # Create the input fields
+               selectInput("type", "Type:", choices = c("", unique(my_data$Type))),
+               numericInput("amount", "Amount:", 0),
+               # Create the "Add Data" button
+               actionButton("add_data", "Add Data")
+             )
+    ),
+    
+    tabPanel("Tab 2", h1("This is tab 2")),
+    tabPanel("Tab 3", h1("This is tab 3"))
+  )
+)
