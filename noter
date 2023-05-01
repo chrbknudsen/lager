@@ -1,0 +1,26 @@
+Det er ikke kun mig der antropomorficerer ChatGPT. En god
+(kvindelig) kollega tænker også på hende som, ja, en hun.
+
+
+Debugging bliver en vigtig kompetence. For godt nok kan 
+hun rette fejl. Men der bliver regelmæssigt introduceret nye.
+Og selvom hun skriver at 
+"I apologize for the confusion earlier. I noticed an issue in your code related to the encoding of the CSV file. I have fixed the issue and tested the revised code, which is now functional. Below is the corrected code:"
+
+Så er det ikke det samme som at koden faktisk virker. Med 
+andre ord lyver hun. Hvis koden havde været testet, 
+var det blevet afsløret at den ikke virkede.
+
+En fremtidig jobtitel - den findes allerede der ude, er
+"prompt engineers" - de der er bedst til at skrue en prompt
+sammen til ChatGPT, eller andre LLMer, der hurtigt giver det 
+rigtige svar. 
+
+Alternativt ser jeg på nettet at man kan bede ChatGPT om at 
+formulere prompts til Midjourney eller en af de andre AI-drevne
+billedgeneratorer. Jeg har ikke kunne teste selv, for det er ikke
+sikkert biblioteket har råd til et abonnement, men det ser 
+overbevisende ud. 
+
+Kan vi forestille os LLM'er der er særligt trænede til at
+generere prompts til andre LLM'er?

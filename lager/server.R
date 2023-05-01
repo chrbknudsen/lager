@@ -5,20 +5,24 @@ shinyServer(function(input, output, session) {
   csv_file <- "inventory.csv"
   
   if (file.exists(csv_file)) {
-    inventory <- reactive({ read_csv(csv_file, locale = locale(encoding = "UTF-8")) })
+    inventory <- reactiveVal(read_csv(csv_file, locale = locale(encoding = "UTF-8")))
   } else {
-    inventory <- reactive({ 
-      empty_inventory <- data.frame(Item = character(0), Location = character(0), Quantity = numeric(0), stringsAsFactors = FALSE)
-      write_csv(empty_inventory, csv_file)
-      empty_inventory
-    })
+    inventory <- reactiveVal(data.frame(Item = character(0), Location = character(0), Quantity = numeric(0), stringsAsFactors = FALSE))
+    write_csv(inventory(), csv_file)
   }
   
-  output$itemNameUI <- renderUI({
-    selectizeInput("item_name", "Varenavn:", choices = unique(c("", inventory()$Item)), options = list(create = TRUE))
+  observe({
+    inventory() # Invalidate the observer when the inventory changes
+    updateSelectizeInput(session, "item_name", "Varenavn:", choices = unique(c("", inventory()$Item)), options = list(create = TRUE), selected = "")
+    updateSelectizeInput(session, "location", "Placering:", choices = unique(c("", inventory()$Location)), options = list(create = TRUE), selected = "")
   })
+  
+  output$itemNameUI <- renderUI({
+    selectizeInput("item_name", "Varenavn:", choices = NULL, options = list(create = TRUE))
+  })
+  
   output$locationUI <- renderUI({
-    selectizeInput("location", "Placering:", choices = unique(c("", inventory()$Location)), options = list(create = TRUE))
+    selectizeInput("location", "Placering:", choices = NULL, options = list(create = TRUE))
   })
   
   observeEvent(input$submit, {
@@ -47,12 +51,12 @@ shinyServer(function(input, output, session) {
       }
     }
     
+    inventory(current_inventory)
     write_csv(current_inventory, csv_file, col_names = TRUE)
-    
-    updateSelectizeInput(session, "item_name", choices = unique(c("", current_inventory$Item)), selected = "", server = TRUE)
-    updateSelectizeInput(session, "location", choices = unique(c("", current_inventory$Location)), selected = "", server = TRUE)
-    updateNumericInput(session, "quantity", value = 1)
   })
   
-  output$inventoryTable <- renderTable(inventory(), rownames = FALSE)
+  output$inventoryTable <- renderTable({
+    req(inventory())
+    inventory()
+  }, rownames = FALSE)
 })
